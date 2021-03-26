@@ -5,7 +5,8 @@ import Alert from './../alert';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { makeStyles } from '@material-ui/core/styles';
-import { useToasts } from 'react-toast-notifications'
+import { useToasts } from 'react-toast-notifications';
+import EditProduct from './EditProduct';
 
 const useStyles = makeStyles({
     icon: {
@@ -20,9 +21,10 @@ const ProductList = (props: any) => {
         products: [],
         showAlert: false,
         selectedProduct: null,
-        isFetchData: true
+        isFetchData: true,
+        showEdit: false
     });
-    const { products, showAlert, selectedProduct, isFetchData } = localState;
+    const { products, showAlert, selectedProduct, isFetchData, showEdit } = localState;
     const classes = useStyles();
     const { addToast } = useToasts();
 
@@ -54,6 +56,11 @@ const ProductList = (props: any) => {
         if (isDelete) handleDeleteProduct();
     }
 
+    const handleCloseEditDialog = (isUpdated: boolean) => {
+        isUpdated && setLocalState(prev => ({...prev, isFetchData: true}));
+        setLocalState(prev => ({...prev, showEdit: false}));
+    }
+
     return (
         <Typography component={'div'}>
             <TableContainer component={Paper}>
@@ -73,7 +80,9 @@ const ProductList = (props: any) => {
                             </TableCell>
                             <TableCell >{row.description}</TableCell>
                             <TableCell  >
-                                <EditIcon className={classes.icon} color={'primary'} />
+                                <EditIcon 
+                                onClick={() => setLocalState(prev => ({...prev, selectedProduct: row, showEdit: !showEdit}))}
+                                className={classes.icon} color={'primary'} />
                                 <DeleteIcon 
                                     onClick={() => setLocalState(prev => ({...prev, showAlert: !showAlert, selectedProduct: row}))} 
                                     className={classes.icon} 
@@ -88,6 +97,10 @@ const ProductList = (props: any) => {
         {
             showAlert && 
             <Alert onCloseAlert={handleCloseAlert} title={'Alert'} content={'Do you want to delete this product?'} />
+        }
+        {
+            showEdit &&
+            <EditProduct product={selectedProduct} onCloseDialog={handleCloseEditDialog} />
         }
         </Typography>
     )

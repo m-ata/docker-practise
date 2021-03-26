@@ -39,3 +39,16 @@ export const deleteProduct = (id: String) => {
         return err
     })
 }
+export const updateProduct = (data: Product) => {
+    return axios({
+        url: `http://localhost:4000/product/update/${data?._id}`,
+        method: 'put',
+        data: data,
+    })
+    .then(res => {
+        return res?.data;
+    })
+    .catch(err => {
+        return err
+    })
+}
