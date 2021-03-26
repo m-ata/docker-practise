@@ -36,12 +36,12 @@ const ProductList = (props: any) => {
         setLocalState(prevState => ({...prevState, isFetchData: hasProductAdded}));
     }, [hasProductAdded]);
 
-    const getProducts = async () => {
+    const getProducts = async () => { //getting all products from service
         const updatedProducts = await getAllProducts();
         (updatedProducts?.count > 0) && setLocalState(prevState => ({...prevState, products: updatedProducts?.data, isFetchData: false}));
     }
 
-    const handleDeleteProduct = async () => {
+    const handleDeleteProduct = async () => { //delete product by using service
         const deletedProduct = await deleteProduct(selectedProduct?._id);
         if (deletedProduct?.success) {
             addToast(deletedProduct?.message || 'Deleted successfully', { appearance: 'success', autoDismiss: true });
@@ -53,6 +53,7 @@ const ProductList = (props: any) => {
 
     const handleCloseAlert = (isDelete: boolean) => {
         setLocalState(prev => ({...prev, showAlert: !showAlert}));
+        //check if delete click then delete product
         if (isDelete) handleDeleteProduct();
     }
 

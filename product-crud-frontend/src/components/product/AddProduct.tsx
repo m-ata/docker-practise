@@ -6,7 +6,7 @@ import { useToasts } from 'react-toast-notifications'
 
 const useStyles = makeStyles({
     root: {
-        width: 400,
+        width: 600,
     },
 });
 
@@ -38,17 +38,17 @@ const AddProduct = (props: any) => {
             <Grid item>
                 <Card className={classes.root}>
                     <CardContent>
-                        <Typography component={'div'} color="textSecondary" gutterBottom>
+                        <Typography component={'div'} gutterBottom>
                             <TextField
                                 onChange={(e) => setLocalState(prev => ({ ...prev, name: e.target.value }))}
                                 value={name}
                                 fullWidth
                                 id="name"
-                                label="Name"
+                                label="Name *"
                                 variant="outlined"
                             />
                         </Typography>
-                        <Typography component={'div'} color="textSecondary" gutterBottom>
+                        <Typography component={'div'} gutterBottom>
                             <TextField
                                 onChange={(e) => setLocalState(prev => ({ ...prev, description: e.target.value }))}
                                 value={description}
@@ -62,7 +62,7 @@ const AddProduct = (props: any) => {
                         </Typography>
                     </CardContent>
                     <CardActions>
-                        <Button onClick={onSubmit} fullWidth size="small" color={'primary'} variant={'outlined'}>Add</Button>
+                        <Button disabled={!name} onClick={onSubmit} fullWidth  color={'primary'} variant={'contained'}>Add</Button>
                     </CardActions>
                 </Card>
             </Grid>

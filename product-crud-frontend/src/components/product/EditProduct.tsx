@@ -16,19 +16,18 @@ const EditProduct = (props: any) => {
     const { addToast } = useToasts();
 
     React.useEffect(() => {
-        console.log(product);
         if (product) {
             setName(product?.name);
             setDescription(product?.description);
         }
     }, [product]);
 
-    const handleDiscard = () => {
+    const handleDiscard = () => { // handle discard case when user clicks on Discard button
         setOpenDialog(false);
         onCloseDialog(false);
     }
 
-    const handleSubmit = async () => {
+    const handleSubmit = async () => { //handle submit and update product through service
         const updatedProduct = await updateProduct({
             _id: product?._id,
             name: name,
@@ -63,7 +62,7 @@ const EditProduct = (props: any) => {
                                 value={name}
                                 fullWidth
                                 id="name"
-                                label="Name"
+                                label="Name *"
                                 variant="outlined"
                             />
                         </Typography>
@@ -84,7 +83,7 @@ const EditProduct = (props: any) => {
           <Button onClick={handleDiscard} color="primary">
             Discard
           </Button>
-          <Button onClick={handleSubmit} color="primary" autoFocus>
+          <Button disabled={!name} onClick={handleSubmit} color="primary" autoFocus>
             Save
           </Button>
         </DialogActions>
