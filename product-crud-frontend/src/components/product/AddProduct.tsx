@@ -10,7 +10,7 @@ const useStyles = makeStyles({
     },
 });
 
-const AddProduct = () => {
+const AddProduct = (props: any) => {
 
     const classes = useStyles();
     const { addToast } = useToasts();
@@ -24,10 +24,12 @@ const AddProduct = () => {
     const onSubmit = async () => {
         const product = await createProduct(localState);
         if (product?.success) {
-            addToast(product?.message || 'Added successfully', { appearance: 'success' })
+            addToast(product?.message || 'Added successfully', { appearance: 'success', autoDismiss: true })
             setLocalState(prev => ({...prev, name: '', description: ''}));
+            props.onAdd(true);
         } else {
-            addToast(product?.message || 'Something went wrong', { appearance: 'error' })
+            addToast(product?.message || 'Something went wrong', { appearance: 'error', autoDismiss: true });
+            props.onAdd(false);
         }
     }
 

@@ -13,8 +13,9 @@ const useStyles = makeStyles({
     },
 });
 
-const ProductList = () => {
+const ProductList = (props: any) => {
 
+    const { hasProductAdded } = props;
     const [localState, setLocalState] = React.useState({
         products: [],
         showAlert: false,
@@ -28,6 +29,10 @@ const ProductList = () => {
     React.useEffect(() => {
         isFetchData && getProducts();
     }, [isFetchData]);
+    
+    React.useEffect(() => {
+        setLocalState(prevState => ({...prevState, isFetchData: hasProductAdded}));
+    }, [hasProductAdded]);
 
     const getProducts = async () => {
         const updatedProducts = await getAllProducts();
@@ -37,10 +42,10 @@ const ProductList = () => {
     const handleDeleteProduct = async () => {
         const deletedProduct = await deleteProduct(selectedProduct?._id);
         if (deletedProduct?.success) {
-            addToast(deletedProduct?.message || 'Deleted successfully', { appearance: 'success' });
+            addToast(deletedProduct?.message || 'Deleted successfully', { appearance: 'success', autoDismiss: true });
             setLocalState(prevState => ({...prevState, isFetchData: true}));
         } else {
-            addToast(deletedProduct?.message || 'Something went wrong while deleting product', { appearance: 'error' })
+            addToast(deletedProduct?.message || 'Something went wrong while deleting product', { appearance: 'error', autoDismiss: true })
         }
     }
 
