@@ -2,7 +2,7 @@ import express from "express";
 import cors from 'cors';
 import bodyParser from 'body-parser';
 import mongoose from 'mongoose';
-import dotenv from 'dotenv';
+import * as dotenv from 'dotenv';
 import router from "./routes";
 
 class Server {
@@ -12,11 +12,11 @@ class Server {
         this.app = express();
         this.config();
         this.mongoDBConnection();
-        dotenv.config();
-      }
+        dotenv.config({ path: './../.env' });
+    }
 
     private config(): void {
-        this.app.set('port', 4000);
+        this.app.set('port', process.env.PORT || 4000);
         this.app.use(bodyParser.json());
         this.app.use(bodyParser.urlencoded({ extended: false }));
         this.app.use(cors());

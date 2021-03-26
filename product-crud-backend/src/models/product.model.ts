@@ -9,7 +9,7 @@ const ProductSchema = new mongoose.Schema({
     description: {
         type: String
     }
-}, {collection: 'product'}).set('timestamps', true);
+}, {collection: 'products'}).set('timestamps', true);
 
 const productModel = mongoose.model<Product & mongoose.Document>('product', ProductSchema);
 export default productModel;

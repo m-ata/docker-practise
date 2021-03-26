@@ -1,16 +1,19 @@
 import * as React from 'react';
 import { Grid, Card, Typography, Button, CardActions, CardContent, TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import { createProduct } from './../services/product.service';
+import { useToasts } from 'react-toast-notifications'
 
 const useStyles = makeStyles({
     root: {
-      width: 400,
+        width: 400,
     },
-  });
+});
 
 const AddProduct = () => {
 
     const classes = useStyles();
+    const { addToast } = useToasts();
     const [localState, setLocalState] = React.useState({
         name: '',
         description: ''
@@ -18,42 +21,48 @@ const AddProduct = () => {
 
     const { name, description } = localState;
 
-    const onSubmit = () => {
-        console.log(localState);
+    const onSubmit = async () => {
+        const product = await createProduct(localState);
+        if (product?.success) {
+            addToast(product?.message || 'Added successfully', { appearance: 'success' })
+            setLocalState(prev => ({...prev, name: '', description: ''}));
+        } else {
+            addToast(product?.message || 'Something went wrong', { appearance: 'error' })
+        }
     }
 
     return (
         <Grid container justify={'center'}>
             <Grid item>
-            <Card className={classes.root}>
-            <CardContent>
-                <Typography component={'div'}  color="textSecondary" gutterBottom>
-                    <TextField 
-                        onChange={(e) => setLocalState(prev => ({...prev, name: e.target.value}))} 
-                        value={name} 
-                        fullWidth 
-                        id="name" 
-                        label="Name" 
-                        variant="outlined" 
-                    />
-                </Typography>
-                <Typography component={'div'} color="textSecondary" gutterBottom>
-                    <TextField 
-                        onChange={(e) => setLocalState(prev => ({...prev, description: e.target.value}))}  
-                        value={description} 
-                        fullWidth 
-                        multiline 
-                        rows={4} 
-                        id="description" 
-                        label="Description" 
-                        variant="outlined" 
-                    />
-                </Typography>
-            </CardContent>
-            <CardActions>
-                <Button onClick={onSubmit} fullWidth size="small" color={'primary'} variant={'outlined'}>Add</Button>
-            </CardActions>
-        </Card>
+                <Card className={classes.root}>
+                    <CardContent>
+                        <Typography component={'div'} color="textSecondary" gutterBottom>
+                            <TextField
+                                onChange={(e) => setLocalState(prev => ({ ...prev, name: e.target.value }))}
+                                value={name}
+                                fullWidth
+                                id="name"
+                                label="Name"
+                                variant="outlined"
+                            />
+                        </Typography>
+                        <Typography component={'div'} color="textSecondary" gutterBottom>
+                            <TextField
+                                onChange={(e) => setLocalState(prev => ({ ...prev, description: e.target.value }))}
+                                value={description}
+                                fullWidth
+                                multiline
+                                rows={4}
+                                id="description"
+                                label="Description"
+                                variant="outlined"
+                            />
+                        </Typography>
+                    </CardContent>
+                    <CardActions>
+                        <Button onClick={onSubmit} fullWidth size="small" color={'primary'} variant={'outlined'}>Add</Button>
+                    </CardActions>
+                </Card>
             </Grid>
         </Grid>
     )
