@@ -27,3 +27,15 @@ export const getAllProducts = () => {
         return err
     })
 }
+export const deleteProduct = (id: String) => {
+    return axios({
+        url: `http://localhost:4000/product/delete/${id}`,
+        method: 'delete',
+    })
+    .then(res => {
+        return res?.data;
+    })
+    .catch(err => {
+        return err
+    })
+}

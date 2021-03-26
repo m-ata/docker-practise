@@ -1,6 +1,6 @@
 import * as React from 'react';
-import AddProduct from './components/AddProduct';
-import ProductList from './components/ProductList'
+import AddProduct from './components/product/AddProduct';
+import ProductList from './components/product/ProductList'
 import { Typography } from '@material-ui/core';
 import { ToastProvider } from 'react-toast-notifications'
 

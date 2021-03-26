@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Grid, Card, Typography, Button, CardActions, CardContent, TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import { createProduct } from './../services/product.service';
+import { createProduct } from '../../services/product.service';
 import { useToasts } from 'react-toast-notifications'
 
 const useStyles = makeStyles({
