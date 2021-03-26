@@ -14,3 +14,16 @@ export const createProduct = (data: Product) => {
         return err
     })
 }
+
+export const getAllProducts = () => {
+    return axios({
+        url: `http://localhost:4000/product/get`,
+        method: 'get',
+    })
+    .then(res => {
+        return res?.data;
+    })
+    .catch(err => {
+        return err
+    })
+}

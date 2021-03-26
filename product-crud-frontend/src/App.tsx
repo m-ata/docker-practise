@@ -1,5 +1,6 @@
 import * as React from 'react';
 import AddProduct from './components/AddProduct';
+import ProductList from './components/ProductList'
 import { Typography } from '@material-ui/core';
 import { ToastProvider } from 'react-toast-notifications'
 
@@ -13,6 +14,7 @@ const App = () => {
             </h2>
                 <AddProduct />
             </Typography>
+            <ProductList />
         </ToastProvider>
     )
 }
