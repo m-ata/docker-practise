@@ -20,3 +20,8 @@ services:
         - 8081:3000
       environment:
         NODE_ENV: development
+    db:
+      container_name: mongo_database
+      image: mongo
+      ports:
+        - 27017:27017
