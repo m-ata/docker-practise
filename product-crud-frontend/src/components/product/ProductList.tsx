@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@material-ui/core';
+import SearchBar from "material-ui-search-bar";
 import { getAllProducts, deleteProduct } from '../../services/product.service';
 import Alert from './../alert';
 import EditIcon from '@material-ui/icons/Edit';
@@ -22,9 +23,10 @@ const ProductList = (props: any) => {
         showAlert: false,
         selectedProduct: null,
         isFetchData: true,
-        showEdit: false
+        showEdit: false,
+        query: ''
     });
-    const { products, showAlert, selectedProduct, isFetchData, showEdit } = localState;
+    const { products, showAlert, selectedProduct, isFetchData, showEdit, query } = localState;
     const classes = useStyles();
     const { addToast } = useToasts();
 
@@ -62,8 +64,17 @@ const ProductList = (props: any) => {
         setLocalState(prev => ({...prev, showEdit: false}));
     }
 
+    const searchProduct = () => {
+        console.log(query);
+    }
+
     return (
         <Typography component={'div'}>
+            <SearchBar
+                value={query}
+                onChange={(newValue) => setLocalState(prevState => ({...prevState, query: newValue}))}
+                onRequestSearch={() => searchProduct()}
+            />
             <TableContainer component={Paper}>
             <Table aria-label="simple table">
                 <TableHead>
