@@ -27,6 +27,18 @@ export const getAllProducts = () => {
         return err
     })
 }
+export const searchProducts = (productName: string) => {
+    return axios({
+        url: `http://localhost:4000/product/search?search=${productName}`,
+        method: 'get',
+    })
+    .then(res => {
+        return res?.data;
+    })
+    .catch(err => {
+        return err
+    })
+}
 export const deleteProduct = (id: String) => {
     return axios({
         url: `http://localhost:4000/product/delete/${id}`,

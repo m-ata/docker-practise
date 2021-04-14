@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@material-ui/core';
 import SearchBar from "material-ui-search-bar";
-import { getAllProducts, deleteProduct } from '../../services/product.service';
+import { getAllProducts, deleteProduct, searchProducts } from '../../services/product.service';
 import Alert from './../alert';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
@@ -64,8 +64,13 @@ const ProductList = (props: any) => {
         setLocalState(prev => ({...prev, showEdit: false}));
     }
 
-    const searchProduct = () => {
+    const searchProduct = async () => {
         console.log(query);
+        setLocalState(prevState => ({...prevState, isFetchData: false}));
+        const filteredProducts = await searchProducts(query);
+        console.log(filteredProducts);
+        filteredProducts?.products && 
+        setLocalState(prevState => ({...prevState, products: filteredProducts?.products, isFetchData: false}));
     }
 
     return (

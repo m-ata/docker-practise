@@ -1,5 +1,6 @@
 import * as express from 'express';
 import productModel from '../models/product.model';
+import { getCachedData, setCacheData } from './../helper/useRedis';
 import { Product } from './../interfaces';
 
 export default class ProductController {
@@ -68,6 +69,31 @@ export default class ProductController {
             res.status(500).send({
                 message: err
             });
+        }
+    }
+    //search product from cache
+    public searchProduct = async (req: express.Request, res: express.Response) => {
+        const search = req.query.search;
+        try {
+            const cachedData = await getCachedData(search);
+            console.log('cached data', cachedData);
+            if (cachedData?.data) {
+                res?.status(200).send({
+                    products: JSON.parse(cachedData.data),
+                    message: 'Data received from Redis cache'
+                });
+            } else {
+                const products = await productModel.find({name: `${search}`});
+                if (products.length > 0) {
+                    setCacheData(search, products);
+                }
+                res.status(200).send({
+                    products: products,
+                    message: 'Data received from DB'
+                });
+            }
+        } catch (err) {
+            res.status(500).send({message: err.message});
         }
     }
 }

@@ -6,6 +6,7 @@ const productController = new ProductController();
 
 productRouter.post('/ins', productController.createProduct);
 productRouter.get('/get', productController.getAllProducts);
+productRouter.get('/search', productController.searchProduct);
 productRouter.put('/update/:id', productController.updateProduct);
 productRouter.delete('/delete/:id', productController.deleteProduct);
 
